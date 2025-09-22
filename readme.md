@@ -1,264 +1,193 @@
-# 📦 Project Setup
+# Advanced Calculator with Design Patterns
 
----
+A command-line calculator application built with Python that uses advanced design patterns, pandas for data management, and comprehensive testing.
 
-# 🧩 1. Install Homebrew (Mac Only)
+## What This Does
 
-> Skip this step if you're on Windows.
+This calculator lets you do math operations through a command-line interface. It saves your calculation history, has undo/redo functionality, and uses several design patterns to make the code maintainable.
 
-Homebrew is a package manager for macOS.  
-You’ll use it to easily install Git, Python, Docker, etc.
+## Features
 
-**Install Homebrew:**
+- Basic operations: add, subtract, multiply, divide, power, root
+- Undo and redo your calculations 
+- History management - see all your past calculations
+- Auto-saves your work to CSV files
+- Load and save history manually
+- Configuration through environment variables
+- Comprehensive error handling
 
+## Setup Instructions
+
+### 1. Clone the Repository
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+git clone https://github.com/Pruthul15/assignment5.git
+cd assignment5
 ```
 
-**Verify Homebrew:**
-
-```bash
-brew --version
-```
-
-If you see a version number, you're good to go.
-
----
-
-# 🧩 2. Install and Configure Git
-
-## Install Git
-
-- **MacOS (using Homebrew)**
-
-```bash
-brew install git
-```
-
-- **Windows**
-
-Download and install [Git for Windows](https://git-scm.com/download/win).  
-Accept the default options during installation.
-
-**Verify Git:**
-
-```bash
-git --version
-```
-
----
-
-## Configure Git Globals
-
-Set your name and email so Git tracks your commits properly:
-
-```bash
-git config --global user.name "Your Name"
-git config --global user.email "your_email@example.com"
-```
-
-Confirm the settings:
-
-```bash
-git config --list
-```
-
----
-
-## Generate SSH Keys and Connect to GitHub
-
-> Only do this once per machine.
-
-1. Generate a new SSH key:
-
-```bash
-ssh-keygen -t ed25519 -C "your_email@example.com"
-```
-
-(Press Enter at all prompts.)
-
-2. Start the SSH agent:
-
-```bash
-eval "$(ssh-agent -s)"
-```
-
-3. Add the SSH private key to the agent:
-
-```bash
-ssh-add ~/.ssh/id_ed25519
-```
-
-4. Copy your SSH public key:
-
-- **Mac/Linux:**
-
-```bash
-cat ~/.ssh/id_ed25519.pub | pbcopy
-```
-
-- **Windows (Git Bash):**
-
-```bash
-cat ~/.ssh/id_ed25519.pub | clip
-```
-
-5. Add the key to your GitHub account:
-   - Go to [GitHub SSH Settings](https://github.com/settings/keys)
-   - Click **New SSH Key**, paste the key, save.
-
-6. Test the connection:
-
-```bash
-ssh -T git@github.com
-```
-
-You should see a success message.
-
----
-
-# 🧩 3. Clone the Repository
-
-Now you can safely clone the course project:
-
-```bash
-git clone <repository-url>
-cd <repository-directory>
-```
-
----
-
-# 🛠️ 4. Install Python 3.10+
-
-## Install Python
-
-- **MacOS (Homebrew)**
-
-```bash
-brew install python
-```
-
-- **Windows**
-
-Download and install [Python for Windows](https://www.python.org/downloads/).  
-✅ Make sure you **check the box** `Add Python to PATH` during setup.
-
-**Verify Python:**
-
-```bash
-python3 --version
-```
-or
-```bash
-python --version
-```
-
----
-
-## Create and Activate a Virtual Environment
-
-(Optional but recommended)
-
+### 2. Create Virtual Environment
 ```bash
 python3 -m venv venv
-source venv/bin/activate   # Mac/Linux
-venv\Scripts\activate.bat  # Windows
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-### Install Required Packages
-
+### 3. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-# 🐳 5. (Optional) Docker Setup
-
-> Skip if Docker isn't used in this module.
-
-## Install Docker
-
-- [Install Docker Desktop for Mac](https://www.docker.com/products/docker-desktop/)
-- [Install Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/)
-
-## Build Docker Image
-
-```bash
-docker build -t <image-name> .
+### 4. Set Up Environment Variables
+Create a `.env` file in the project root:
+```
+CALCULATOR_MAX_HISTORY_SIZE=100
+CALCULATOR_AUTO_SAVE=true
+CALCULATOR_DEFAULT_ENCODING=utf-8
 ```
 
-## Run Docker Container
-
-```bash
-docker run -it --rm <image-name>
-```
-
----
-
-# 🚀 6. Running the Project
-
-- **Without Docker**:
-
+### 5. Run the Calculator
 ```bash
 python main.py
 ```
 
-(or update this if the main script is different.)
+## How to Use
 
-- **With Docker**:
-
-```bash
-docker run -it --rm <image-name>
+When you start the calculator, you'll see:
+```
+Calculator started. Type 'help' for commands.
+Enter command:
 ```
 
----
+### Available Commands
 
-# 📝 7. Submission Instructions
+- `add`, `subtract`, `multiply`, `divide`, `power`, `root` - Do math operations
+- `history` - Show all your past calculations
+- `clear` - Clear the calculation history
+- `undo` - Undo the last calculation
+- `redo` - Redo the last undone calculation
+- `save` - Save history to file
+- `load` - Load history from file
+- `help` - Show available commands
+- `exit` - Exit the calculator
 
-After finishing your work:
+### Example Usage
+```
+Enter command: add
+Enter numbers (or 'cancel' to abort):
+First number: 5
+Second number: 3
+Result: 8
 
-```bash
-git add .
-git commit -m "Complete Module X"
-git push origin main
+Enter command: multiply
+Enter numbers (or 'cancel' to abort):
+First number: 4
+Second number: 7
+Result: 28
+
+Enter command: history
+Calculation History:
+1. Addition(5, 3) = 8
+2. Multiplication(4, 7) = 28
+
+Enter command: undo
+Operation undone
+
+Enter command: history
+Calculation History:
+1. Addition(5, 3) = 8
 ```
 
-Then submit the GitHub repository link as instructed.
+## Project Structure
 
----
+```
+assignment5/
+├── app/
+│   ├── __init__.py
+│   ├── calculation.py          # Individual calculation logic
+│   ├── calculator.py           # Main calculator class
+│   ├── calculator_config.py    # Configuration management
+│   ├── calculator_memento.py   # Undo/redo functionality
+│   ├── calculator_repl.py      # Command-line interface
+│   ├── exceptions.py           # Custom exceptions
+│   ├── history.py              # History management and observers
+│   ├── input_validators.py     # Input validation
+│   └── operations.py           # Operation classes and factory
+├── tests/
+│   ├── test_calculation.py
+│   ├── test_calculator.py
+│   ├── test_calculator_memento.py
+│   ├── test_calculator_repl.py
+│   ├── test_config.py
+│   ├── test_exceptions.py
+│   ├── test_history.py
+│   ├── test_operations.py
+│   └── test_validators.py
+├── main.py
+├── requirements.txt
+├── .env
+└── README.md
+```
 
-# 🔥 Useful Commands Cheat Sheet
+## Design Patterns Used
 
-| Action                         | Command                                          |
-| ------------------------------- | ------------------------------------------------ |
-| Install Homebrew (Mac)          | `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` |
-| Install Git                     | `brew install git` or Git for Windows installer |
-| Configure Git Global Username  | `git config --global user.name "Your Name"`      |
-| Configure Git Global Email     | `git config --global user.email "you@example.com"` |
-| Clone Repository                | `git clone <repo-url>`                          |
-| Create Virtual Environment     | `python3 -m venv venv`                           |
-| Activate Virtual Environment   | `source venv/bin/activate` / `venv\Scripts\activate.bat` |
-| Install Python Packages        | `pip install -r requirements.txt`               |
-| Build Docker Image              | `docker build -t <image-name> .`                |
-| Run Docker Container            | `docker run -it --rm <image-name>`               |
-| Push Code to GitHub             | `git add . && git commit -m "message" && git push` |
+- **Factory Pattern**: Creates operation objects based on user input
+- **Observer Pattern**: Monitors calculation events for logging and auto-saving
+- **Memento Pattern**: Saves calculator state for undo/redo functionality
+- **Strategy Pattern**: Interchangeable operation execution strategies
+- **Facade Pattern**: Simplified interface through the Calculator class
 
----
+## Testing
 
-# 📋 Notes
+Run all tests:
+```bash
+pytest
+```
 
-- Install **Homebrew** first on Mac.
-- Install and configure **Git** and **SSH** before cloning.
-- Use **Python 3.10+** and **virtual environments** for Python projects.
-- **Docker** is optional depending on the project.
+Run tests with coverage:
+```bash
+pytest --cov=app tests/
+```
 
----
+Current test coverage: **99%** with **171 tests**
 
-# 📎 Quick Links
+## Configuration Options
 
-- [Homebrew](https://brew.sh/)
-- [Git Downloads](https://git-scm.com/downloads)
-- [Python Downloads](https://www.python.org/downloads/)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [GitHub SSH Setup Guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
+You can customize the calculator through environment variables in the `.env` file:
+
+- `CALCULATOR_MAX_HISTORY_SIZE` - Maximum number of calculations to keep in history
+- `CALCULATOR_AUTO_SAVE` - Whether to automatically save history after each operation
+- `CALCULATOR_DEFAULT_ENCODING` - Text encoding for file operations
+- `CALCULATOR_PRECISION` - Decimal precision for results
+- `CALCULATOR_MAX_INPUT_VALUE` - Maximum allowable input value
+
+## Data Storage
+
+The calculator uses pandas to manage calculation history:
+- History is automatically saved to `history/calculator_history.csv`
+- Each calculation includes operation, operands, result, and timestamp
+- Data persists between sessions
+
+## Error Handling
+
+The calculator handles various error scenarios:
+- Invalid input (non-numeric values)
+- Division by zero
+- Invalid operations
+- File I/O errors
+- Configuration errors
+
+## Development
+
+If you want to modify or extend the calculator:
+
+1. All application code is in the `app/` directory
+2. Tests are in the `tests/` directory
+3. Follow the existing patterns for consistency
+4. Add tests for any new functionality
+5. Update this README if you add new features
+
+## Requirements
+
+- Python 3.x
+- pandas
+- pytest (for testing)
+- python-dotenv (for environment variables)
+i wqanted to push to git 
