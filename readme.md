@@ -1,193 +1,243 @@
-# Advanced Calculator with Design Patterns
+# Advanced Calculator Application with Design Patterns
 
-A command-line calculator application built with Python that uses advanced design patterns, pandas for data management, and comprehensive testing.
+A sophisticated calculator application built with Python that integrates advanced design patterns, pandas for data management, and full test automation with GitHub Actions.
 
-## What This Does
-
-This calculator lets you do math operations through a command-line interface. It saves your calculation history, has undo/redo functionality, and uses several design patterns to make the code maintainable.
+**Author:** Pruthul Patel  
+**Repository:** https://github.com/Pruthul15/assignment5
 
 ## Features
 
-- Basic operations: add, subtract, multiply, divide, power, root
-- Undo and redo your calculations 
-- History management - see all your past calculations
-- Auto-saves your work to CSV files
-- Load and save history manually
+- 6 arithmetic operations: add, subtract, multiply, divide, power, root
+- Undo/redo functionality using Memento pattern
+- History management with pandas DataFrames
+- Auto-save to CSV files using Observer pattern
+- Comprehensive error handling (LBYL and EAFP paradigms)
 - Configuration through environment variables
-- Comprehensive error handling
+- 100% test coverage with 171 tests
 
-## Setup Instructions
+## Installation Instructions
 
-### 1. Clone the Repository
+### 1. Clone and Setup
 ```bash
 git clone https://github.com/Pruthul15/assignment5.git
 cd assignment5
-```
-
-### 2. Create Virtual Environment
-```bash
 python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-### 3. Install Dependencies
-```bash
 pip install -r requirements.txt
 ```
 
-### 4. Set Up Environment Variables
+### 2. Create Configuration File
+
 Create a `.env` file in the project root:
-```
+
+```env
 CALCULATOR_MAX_HISTORY_SIZE=100
 CALCULATOR_AUTO_SAVE=true
+CALCULATOR_PRECISION=10
+CALCULATOR_MAX_INPUT_VALUE=1000000
 CALCULATOR_DEFAULT_ENCODING=utf-8
 ```
 
-### 5. Run the Calculator
+### 3. Run the Calculator
 ```bash
 python main.py
 ```
 
-## How to Use
-
-When you start the calculator, you'll see:
-```
-Calculator started. Type 'help' for commands.
-Enter command:
-```
+## Usage Guide
 
 ### Available Commands
 
-- `add`, `subtract`, `multiply`, `divide`, `power`, `root` - Do math operations
-- `history` - Show all your past calculations
-- `clear` - Clear the calculation history
-- `undo` - Undo the last calculation
-- `redo` - Redo the last undone calculation
-- `save` - Save history to file
-- `load` - Load history from file
-- `help` - Show available commands
-- `exit` - Exit the calculator
+**Operations:** `add`, `subtract`, `multiply`, `divide`, `power`, `root`  
+**History:** `history`, `clear`, `save`, `load`  
+**State:** `undo`, `redo`  
+**Utility:** `help`, `exit`
 
-### Example Usage
+### Example Session
+
 ```
 Enter command: add
-Enter numbers (or 'cancel' to abort):
-First number: 5
-Second number: 3
-Result: 8
-
-Enter command: multiply
-Enter numbers (or 'cancel' to abort):
-First number: 4
+First number: 15
 Second number: 7
-Result: 28
+Result: 22
+
+Enter command: power
+First number: 2
+Second number: 8
+Result: 256
 
 Enter command: history
 Calculation History:
-1. Addition(5, 3) = 8
-2. Multiplication(4, 7) = 28
+1. Addition(15, 7) = 22
+2. Power(2, 8) = 256
 
 Enter command: undo
 Operation undone
 
-Enter command: history
-Calculation History:
-1. Addition(5, 3) = 8
+Enter command: exit
+History saved successfully.
 ```
 
 ## Project Structure
 
 ```
 assignment5/
+├── .github/
+│   └── workflows/
+│       └── python-app.yml      # GitHub Actions CI/CD configuration
 ├── app/
 │   ├── __init__.py
-│   ├── calculation.py          # Individual calculation logic
-│   ├── calculator.py           # Main calculator class
+│   ├── calculation.py          # Calculation value object
+│   ├── calculator.py           # Main calculator facade
 │   ├── calculator_config.py    # Configuration management
-│   ├── calculator_memento.py   # Undo/redo functionality
-│   ├── calculator_repl.py      # Command-line interface
-│   ├── exceptions.py           # Custom exceptions
-│   ├── history.py              # History management and observers
-│   ├── input_validators.py     # Input validation
-│   └── operations.py           # Operation classes and factory
+│   ├── calculator_memento.py   # Memento pattern for undo/redo
+│   ├── calculator_repl.py      # REPL command-line interface
+│   ├── exceptions.py           # Custom exception classes
+│   ├── history.py              # Observer pattern for history
+│   ├── input_validators.py     # Input validation (LBYL approach)
+│   └── operations.py           # Strategy & Factory patterns
 ├── tests/
-│   ├── test_calculation.py
-│   ├── test_calculator.py
-│   ├── test_calculator_memento.py
-│   ├── test_calculator_repl.py
-│   ├── test_config.py
-│   ├── test_exceptions.py
-│   ├── test_history.py
-│   ├── test_operations.py
-│   └── test_validators.py
-├── main.py
-├── requirements.txt
-├── .env
-└── README.md
+│   ├── __init__.py
+│   ├── test_calculation.py     # Calculation class tests
+│   ├── test_calculator.py      # Calculator tests
+│   ├── test_calculator_memento.py  # Memento pattern tests
+│   ├── test_calculator_repl.py # REPL interface tests
+│   ├── test_config.py          # Configuration tests
+│   ├── test_exceptions.py      # Exception handling tests
+│   ├── test_history.py         # History observer tests
+│   ├── test_operations.py      # Operation tests
+│   └── test_validators.py      # Input validation tests
+├── history/                     # Auto-created for history CSV files
+├── logs/                        # Auto-created for log files
+├── .env                         # Environment variables (not in repo)
+├── .gitignore
+├── main.py                      # Application entry point
+├── requirements.txt             # Python dependencies
+└── README.md                    # This file
 ```
 
-## Design Patterns Used
+## Design Patterns
 
-- **Factory Pattern**: Creates operation objects based on user input
-- **Observer Pattern**: Monitors calculation events for logging and auto-saving
-- **Memento Pattern**: Saves calculator state for undo/redo functionality
-- **Strategy Pattern**: Interchangeable operation execution strategies
-- **Facade Pattern**: Simplified interface through the Calculator class
-
-## Testing
-
-Run all tests:
-```bash
-pytest
-```
-
-Run tests with coverage:
-```bash
-pytest --cov=app tests/
-```
-
-Current test coverage: **99%** with **171 tests**
-
-## Configuration Options
-
-You can customize the calculator through environment variables in the `.env` file:
-
-- `CALCULATOR_MAX_HISTORY_SIZE` - Maximum number of calculations to keep in history
-- `CALCULATOR_AUTO_SAVE` - Whether to automatically save history after each operation
-- `CALCULATOR_DEFAULT_ENCODING` - Text encoding for file operations
-- `CALCULATOR_PRECISION` - Decimal precision for results
-- `CALCULATOR_MAX_INPUT_VALUE` - Maximum allowable input value
-
-## Data Storage
-
-The calculator uses pandas to manage calculation history:
-- History is automatically saved to `history/calculator_history.csv`
-- Each calculation includes operation, operands, result, and timestamp
-- Data persists between sessions
+1. **Factory Pattern** (`operations.py`): Dynamic operation creation
+2. **Observer Pattern** (`history.py`): Auto-save on calculations
+3. **Memento Pattern** (`calculator_memento.py`): Undo/redo state management
+4. **Strategy Pattern** (`operations.py`): Interchangeable operations
+5. **Facade Pattern** (`calculator.py`): Simplified interface
 
 ## Error Handling
 
-The calculator handles various error scenarios:
-- Invalid input (non-numeric values)
-- Division by zero
-- Invalid operations
-- File I/O errors
-- Configuration errors
+The application demonstrates both LBYL and EAFP error handling paradigms:
 
-## Development
+**LBYL (Look Before You Leap):** Validates conditions before execution
+```python
+"Division": lambda x, y: x / y if y != 0 else self._raise_div_zero()
+```
 
-If you want to modify or extend the calculator:
+**EAFP (Easier to Ask Forgiveness than Permission):** Try/catch approach
+```python
+try:
+    result = self.operation_strategy.execute(a, b)
+except ValidationError as e:
+    logging.error(f"Validation error: {str(e)}")
+```
 
-1. All application code is in the `app/` directory
-2. Tests are in the `tests/` directory
-3. Follow the existing patterns for consistency
-4. Add tests for any new functionality
-5. Update this README if you add new features
+### Error Examples
+
+**Division by Zero:**
+```
+Enter command: divide
+First number: 10
+Second number: 0
+Error: Division by zero is not allowed
+```
+
+**Invalid Input:**
+```
+Enter command: add
+First number: abc
+Second number: 5
+Error: Invalid number format: abc
+```
+
+**Root of Negative Number:**
+```
+Enter command: root
+First number: -25
+Second number: 2
+Error: Cannot calculate root of negative number
+```
+
+**Zero Root (Undefined):**
+```
+Enter command: root
+First number: 16
+Second number: 0
+Error: Zero root is undefined
+```
+
+**Negative Exponent:**
+```
+Enter command: power
+First number: 2
+Second number: -3
+Error: Negative exponents not supported
+```
+
+**Unknown Command:**
+```
+Enter command: xyz
+Unknown command: 'xyz'. Type 'help' for available commands.
+```
+
+## Testing
+
+### Run Tests
+```bash
+pytest                          # Run all tests
+pytest -v                       # Verbose output
+pytest --cov=app tests/         # With coverage report
+```
+
+### Test Coverage
+- **Total Tests:** 171
+- **Coverage:** 100%
+- **Test Files:** 9 comprehensive test modules
+
+## CI/CD with GitHub Actions
+
+Automated testing runs on every push:
+1. Sets up Python 3.12 environment
+2. Installs dependencies
+3. Runs full test suite with coverage
+4. **Fails if coverage < 100%**
+
+View workflow: `.github/workflows/python-app.yml`
+
+Check status: https://github.com/Pruthul15/assignment5/actions
+
+## Data Management with pandas
+
+- History stored in pandas DataFrame
+- Auto-saves to CSV: `history/calculator_history.csv`
+- Preserves operations, operands, results, timestamps
+- Load/save functionality for persistence
+
+## Configuration Options
+
+Set in `.env` file:
+- `CALCULATOR_MAX_HISTORY_SIZE`: Max history entries (default: 100)
+- `CALCULATOR_AUTO_SAVE`: Auto-save after operations (true/false)
+- `CALCULATOR_PRECISION`: Decimal precision (default: 10)
+- `CALCULATOR_MAX_INPUT_VALUE`: Max input allowed (default: 1000000)
 
 ## Requirements
 
-- Python 3.x
+- Python 3.12
 - pandas
-- pytest (for testing)
-- python-dotenv (for environment variables)
-i wqanted to push to git 
+- python-dotenv
+- pytest
+- pytest-cov
+
+## Author
+
+**Pruthul Patel**  
+IS 601 - Module 5 Assignment
