@@ -16,3 +16,5 @@ data/
 
 # VS Code (optional)
 .vscode/
+test_log.log
+*.log
